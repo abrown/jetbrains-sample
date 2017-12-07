@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.elasticsearch.gradle:build-tools:5.5.2'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'elasticsearch.esplugin'
+
+test {
+    testClassesDir = sourceSets.test.output.classesDir  // would prefer not to do this (and don't in the real project)
+}
+
+esplugin {
+    name 'example-plugin'
+    version '0.0.0'
+    description 'Sample for JetBrains'
+    classname 'com.example.ExamplePlugin'
+}
+
+dependencies {
+    compile 'org.elasticsearch:elasticsearch:5.5.2'
+    testRuntime "org.apache.logging.log4j:log4j-core:2.8.2"
+    testCompile 'org.elasticsearch.test:framework:5.5.2'
+}
+
+licenseHeaders.onlyIf { project.hasProperty('checkLicenses') }
+dependencyLicenses.onlyIf { project.hasProperty('checkLicenses') }
